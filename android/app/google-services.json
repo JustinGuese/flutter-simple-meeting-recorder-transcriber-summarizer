@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "811804439071",
+    "project_id": "goatly-meeting-summarizer",
+    "storage_bucket": "goatly-meeting-summarizer.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:811804439071:android:00991701d06f9e367c5b2a",
+        "android_client_info": {
+          "package_name": "cloud.datafortress.goatlymeetingsummarizer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "811804439071-34pq2ed04f7igrstfi9hvbimjfggkfcb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXmKuCN3KkfjFwFjiVZ6iD0YgPDgnBfds"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "811804439071-34pq2ed04f7igrstfi9hvbimjfggkfcb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "811804439071-mkd89vvpf4l1d2nop3l9784ob9a6hkr2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cloud.datafortress.goatlymeetingsummarizer"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

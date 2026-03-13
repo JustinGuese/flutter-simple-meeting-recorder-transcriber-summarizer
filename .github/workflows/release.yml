@@ -1,0 +1,113 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  # ─── Windows ────────────────────────────────────────────────────────────────
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - run: flutter pub get
+
+      - name: Build Windows
+        run: flutter build windows --release
+
+      - name: Zip Windows build
+        run: Compress-Archive -Path build\windows\x64\runner\Release\* -DestinationPath goatly-windows.zip
+        shell: pwsh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: goatly-windows
+          path: goatly-windows.zip
+
+  # ─── macOS ──────────────────────────────────────────────────────────────────
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - run: flutter pub get
+
+      - name: Build macOS
+        run: flutter build macos --release
+
+      - name: Zip macOS app
+        run: |
+          cd build/macos/Build/Products/Release
+          zip -r ../../../../../goatly-macos.zip *.app
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: goatly-macos
+          path: goatly-macos.zip
+
+  # ─── Linux ──────────────────────────────────────────────────────────────────
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Linux build dependencies
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y \
+            clang cmake ninja-build pkg-config \
+            libgtk-3-dev libglib2.0-dev liblzma-dev
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - run: flutter pub get
+
+      - name: Build Linux
+        run: flutter build linux --release
+
+      - name: Tar Linux build
+        run: tar -czf goatly-linux.tar.gz -C build/linux/x64/release/bundle .
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: goatly-linux
+          path: goatly-linux.tar.gz
+
+  # ─── GitHub Release ─────────────────────────────────────────────────────────
+  release:
+    needs: [build-windows, build-macos, build-linux]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "GOATLY ${{ github.ref_name }}"
+          body: |
+            ## GOATLY Meeting Summarizer ${{ github.ref_name }}
+
+            ### Downloads
+            | Platform | File |
+            |----------|------|
+            | Windows  | `goatly-windows.zip` — extract and run the `.exe` |
+            | macOS    | `goatly-macos.zip` — extract and drag `.app` to Applications |
+            | Linux    | `goatly-linux.tar.gz` — extract and run the binary |
+          files: |
+            goatly-windows/goatly-windows.zip
+            goatly-macos/goatly-macos.zip
+            goatly-linux/goatly-linux.tar.gz

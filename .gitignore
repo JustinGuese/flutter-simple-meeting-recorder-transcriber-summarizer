@@ -7,6 +7,14 @@
 .buildlog/
 .history
 
+# IDE
+.idea/
+*.iml
+.metadata
+
+# Claude Code
+.claude/
+
 
 
 # Flutter repo-specific
