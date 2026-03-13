@@ -1,60 +1,72 @@
-## GOATLY
+## GOATLY Meeting Summarizer
 
 ![GOATLY logo](logo.jpg)
 
-GOATLY is a desktop Flutter app for recording meetings and sending them to FAL Wizper for transcription (with in-app summaries).
+![App screenshot](screenshot.png)
+
+**GOATLY** is a cross-platform desktop (and mobile) app for recording meetings and automatically transcribing and summarizing them using AI.
+
+**[Full documentation →](https://justinguese.github.io/flutter-simple-meeting-recorder-transcriber-summarizer/)**
 
 ### Features
 
-- Microphone recording using `desktop_audio_capture`, written to a local WAV file.
-- One-click "Stop & transcribe" flow using `fal_client` and `fal-ai/wizper`.
-- Secure override for `FAL_KEY` using `flutter_secure_storage` (per-device).
-- Desktop window management via `window_manager`.
+- One-click microphone recording written to a local WAV file
+- AI transcription via [FAL Wizper](https://fal.ai/models/fal-ai/wizper)
+- AI summarization via OpenRouter LLMs
+- Search and sort across all past recordings
+- Secure per-device key storage via `flutter_secure_storage`
+- Windows, macOS, Linux (desktop) + iOS, Android (mobile)
 
-### Setup
+### Deployment modes
 
-1. **Create Flutter desktop scaffolding (if not already)**
+**Fully open source** — Bring your own [FAL](https://fal.ai) and [OpenRouter](https://openrouter.ai) API keys. No sign-in required. Complete control, zero cost after free-tier quotas are exhausted (FAL: $5 monthly spend, OpenRouter: variable).
 
-   From this directory:
+**Managed mode (free-tier)** — Sign in with Google/email. GOATLY provisions API keys automatically. Free tier covers ~500 minutes of transcription + summaries per month. For more usage, upgrade to a paid tier.
 
-   ```bash
-   flutter create .
-   ```
+**Managed mode (paid)** — Upgrade from free tier within the app for higher transcription and summarization limits.
 
-2. **Install dependencies**
+### Download
+
+Pre-built binaries are attached to every [GitHub Release](../../releases).
+
+| Platform | File |
+|----------|------|
+| Windows  | `goatly-windows.zip` — extract and run the `.exe` |
+| macOS    | `goatly-macos.zip` — extract and drag `.app` to Applications |
+| Linux    | `goatly-linux.tar.gz` — extract and run the binary |
+
+### Setup (build from source)
+
+1. **Install dependencies**
 
    ```bash
    flutter pub get
    ```
 
-3. **Generate app icons**
+2. **Generate app icons**
 
    ```bash
    dart run flutter_launcher_icons
    ```
 
-4. **Configure your FAL API key**
-
-   Recommended for development:
+3. **Run the app**
 
    ```bash
-   # PowerShell
-   $env:FAL_KEY = "YOUR_FAL_KEY"
-
-   # or bash
-   export FAL_KEY="YOUR_FAL_KEY"
+   flutter run -d windows   # or macos / linux
    ```
 
-   You can also open the in-app key dialog (key icon in the app bar) to store an override key in `flutter_secure_storage`.
+   Sign in on first launch — in managed mode no API keys are needed.
 
-5. **Run the app (desktop)**
+4. **Optional: bring your own FAL key**
 
    ```bash
-   flutter run -d windows
+   export FAL_KEY="fal-…"   # bash/zsh
+   $env:FAL_KEY = "fal-…"   # PowerShell
    ```
+
+   Or use the in-app key dialog (key icon in the app bar).
 
 ### Notes
 
-- Currently the app records the **microphone**; adding separate system/loopback capture can be layered on top of `AudioCaptureService`.
-- For long meetings you may switch from the blocking `subscribe` call to the queue-based pattern described in `PLAN.md`.
-
+- Currently records the **microphone**; system/loopback capture can be layered on top of `AudioCaptureService`.
+- See the [docs site](https://justinguese.github.io/flutter-simple-meeting-recorder-transcriber-summarizer/) for the full usage guide, configuration reference, and contributing instructions.

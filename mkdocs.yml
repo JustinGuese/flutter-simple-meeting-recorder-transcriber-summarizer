@@ -1,0 +1,22 @@
+site_name: GOATLY Meeting Summarizer
+site_url: https://justinguese.github.io/flutter-simple-meeting-recorder-transcriber-summarizer/
+repo_url: https://github.com/JustinGuese/flutter-simple-meeting-recorder-transcriber-summarizer
+repo_name: JustinGuese/goatly
+
+theme:
+  name: material
+  palette:
+    scheme: slate
+    primary: indigo
+    accent: indigo
+  features:
+    - navigation.instant
+    - navigation.top
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Usage: usage.md
+  - Configuration: configuration.md
+  - Contributing: contributing.md
