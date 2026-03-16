@@ -48,7 +48,8 @@ jobs:
       - name: Zip macOS app
         run: |
           cd build/macos/Build/Products/Release
-          zip -r ../../../../../goatly-macos.zip *.app
+          zip -r goatly-macos.zip *.app
+          mv goatly-macos.zip "${{ github.workspace }}/goatly-macos.zip"
 
       - uses: actions/upload-artifact@v4
         with:
@@ -93,6 +94,16 @@ jobs:
       contents: write
     steps:
       - uses: actions/download-artifact@v4
+
+      - name: Verify artifacts
+        run: |
+          echo "Listing downloaded artifacts:"
+          ls -lR .
+          echo ""
+          echo "Checking for required files:"
+          test -f goatly-windows/goatly-windows.zip && echo "✓ Windows zip found" || echo "✗ Windows zip NOT found"
+          test -f goatly-macos/goatly-macos.zip && echo "✓ macOS zip found" || echo "✗ macOS zip NOT found"
+          test -f goatly-linux/goatly-linux.tar.gz && echo "✓ Linux tar.gz found" || echo "✗ Linux tar.gz NOT found"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
