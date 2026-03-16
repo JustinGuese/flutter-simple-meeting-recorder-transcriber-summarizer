@@ -32,10 +32,17 @@ set(CMAKE_CXX_FLAGS_PROFILE "${CMAKE_CXX_FLAGS_RELEASE}")
 # Use Unicode for all projects.
 add_definitions(-DUNICODE -D_UNICODE)
 
-# Add each target's source directory to its own include path.
-# Required for plugins (e.g. flutter_secure_storage_windows, screen_retriever_windows)
-# that declare include dirs as INTERFACE and use relative #include "include/..." paths.
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# CI workaround: MSVC cannot resolve #include directives through Windows
+# junction points in .plugin_symlinks. Add real pub cache plugin windows
+# directories as explicit include paths so MSVC finds them without junctions.
+if(DEFINED ENV{PUB_CACHE})
+  file(GLOB _PUB_PLUGIN_WINDOWS_DIRS "$ENV{PUB_CACHE}/hosted/pub.dev/*/windows")
+  foreach(_dir ${_PUB_PLUGIN_WINDOWS_DIRS})
+    if(IS_DIRECTORY "${_dir}")
+      include_directories("${_dir}")
+    endif()
+  endforeach()
+endif()
 
 # Compilation settings that should be applied to most targets.
 #
