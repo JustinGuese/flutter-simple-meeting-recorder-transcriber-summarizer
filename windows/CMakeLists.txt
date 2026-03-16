@@ -32,38 +32,6 @@ set(CMAKE_CXX_FLAGS_PROFILE "${CMAKE_CXX_FLAGS_RELEASE}")
 # Use Unicode for all projects.
 add_definitions(-DUNICODE -D_UNICODE)
 
-# CI workaround: MSVC cannot compile files accessed through Windows junction
-# points in .plugin_symlinks (include resolution and output path computation
-# both fail). Replace each junction with a real copy of its target directory
-# at CMake configure time, before .vcxproj files are generated.
-if(MSVC)
-  set(_symlinks_dir "${CMAKE_CURRENT_SOURCE_DIR}/flutter/ephemeral/.plugin_symlinks")
-  if(IS_DIRECTORY "${_symlinks_dir}")
-    set(_ps_file "${CMAKE_CURRENT_BINARY_DIR}/resolve_junctions.ps1")
-    file(WRITE "${_ps_file}" [=[
-param([string]$Dir)
-foreach ($item in (Get-ChildItem -LiteralPath $Dir -ErrorAction SilentlyContinue)) {
-  if ($item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
-    $tgt = $item.Target
-    if ($tgt -is [array]) { $tgt = $tgt[0] }
-    if ($tgt) {
-      [System.IO.Directory]::Delete($item.FullName, $false)
-      Copy-Item -LiteralPath $tgt -Destination $item.FullName -Recurse -Force
-      Write-Host "Resolved: $($item.Name)"
-    }
-  }
-}
-]=])
-    execute_process(
-      COMMAND powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass
-              -File "${_ps_file}" "${_symlinks_dir}"
-      RESULT_VARIABLE _ps_rc
-    )
-    if(_ps_rc)
-      message(WARNING "resolve_junctions.ps1 exited with code ${_ps_rc}")
-    endif()
-  endif()
-endif()
 
 # Compilation settings that should be applied to most targets.
 #
@@ -90,6 +58,25 @@ add_subdirectory("runner")
 # them to the application.
 include(flutter/generated_plugins.cmake)
 
+# CI workaround: MSVC cannot resolve relative #include paths through Windows
+# junction points in .plugin_symlinks. Add the real pub-cache source directory
+# as a PRIVATE include path on each affected plugin target so MSVC finds the
+# headers without needing to follow the junction.
+if(MSVC AND DEFINED ENV{PUB_CACHE})
+  set(_raw_pub_cache "$ENV{PUB_CACHE}")
+  string(REPLACE "\\" "/" _pub_cache "${_raw_pub_cache}")
+  foreach(_pkg IN ITEMS "flutter_secure_storage_windows" "screen_retriever_windows")
+    if(TARGET "${_pkg}_plugin")
+      file(GLOB _dirs "${_pub_cache}/hosted/pub.dev/${_pkg}-*/windows")
+      foreach(_dir ${_dirs})
+        if(IS_DIRECTORY "${_dir}")
+          target_include_directories("${_pkg}_plugin" PRIVATE "${_dir}")
+          message(STATUS "Added include for ${_pkg}: ${_dir}")
+        endif()
+      endforeach()
+    endif()
+  endforeach()
+endif()
 
 # === Installation ===
 # Support files are copied into place next to the executable, so that it can
