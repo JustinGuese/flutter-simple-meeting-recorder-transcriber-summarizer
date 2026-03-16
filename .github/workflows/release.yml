@@ -14,24 +14,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Enable Windows long paths
+        shell: cmd
+        run: reg add "HKLM\SYSTEM\CurrentControlSet\Control\FileSystem" /v LongPathsEnabled /t REG_DWORD /d 1 /f
+
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
 
       - run: flutter pub get
 
-      - name: Shorten workspace path via subst
-        shell: pwsh
-        run: |
-          subst Z: "$env:GITHUB_WORKSPACE"
-
       - name: Build Windows
-        working-directory: 'Z:\'
         run: flutter build windows --release
 
       - name: Zip Windows build
         shell: pwsh
-        run: Compress-Archive -Path Z:\build\windows\x64\runner\Release\* -DestinationPath goatly-windows.zip
+        run: Compress-Archive -Path build\windows\x64\runner\Release\* -DestinationPath goatly-windows.zip
 
       - uses: actions/upload-artifact@v4
         with:
