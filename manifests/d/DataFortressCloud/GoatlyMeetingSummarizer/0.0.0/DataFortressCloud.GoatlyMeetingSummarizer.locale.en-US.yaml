@@ -1,5 +1,5 @@
 # Created using wingetcreate 1.10.3.0
-# yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.10.0.schema.json
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.12.0.schema.json
 
 PackageIdentifier: DataFortressCloud.GoatlyMeetingSummarizer
 PackageVersion: 0.0.0
@@ -12,7 +12,7 @@ PackageUrl: https://github.com/JustinGuese/flutter-simple-meeting-recorder-trans
 License: MIT
 ShortDescription: record, transcribe, summarize meetings easily on Windows, Mac, Linux, Android/iOS using cheap online APIs
 Tags:
-- artifical-intelligence
+- artificial-intelligence
 - meeting-minutes
 - meeting-notes
 - summarization
@@ -22,4 +22,4 @@ Documentations:
 - DocumentLabel: Wiki
   DocumentUrl: https://github.com/JustinGuese/flutter-simple-meeting-recorder-transcriber-summarizer/wiki
 ManifestType: defaultLocale
-ManifestVersion: 1.10.0
+ManifestVersion: 1.12.0

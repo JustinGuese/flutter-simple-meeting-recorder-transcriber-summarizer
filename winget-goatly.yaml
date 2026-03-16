@@ -17,11 +17,8 @@ Tags:
   - flutter
 Installers:
   - Architecture: x64
-    InstallerType: zip
-    InstallerUrl: https://github.com/JustinGuese/flutter-simple-meeting-recorder-transcriber-summarizer/releases/download/v0.0.0/goatly-windows.zip
-    InstallerSha256: C8C6C543B1CA02D4E31E3081A49521E515C3BE11AC45A19CEC10737599E433EA
-    NestedInstallerType: portable
-    NestedInstallerFiles:
-      - RelativeFilePath: flutter_simple_meeting_recorder_transcriber_summarizer.exe
+    InstallerType: inno
+    InstallerUrl: https://github.com/JustinGuese/flutter-simple-meeting-recorder-transcriber-summarizer/releases/download/v0.0.0/goatly-setup.exe
+    InstallerSha256: PLACEHOLDER_SHA256_AFTER_RELEASE
 ManifestType: singleton
-ManifestVersion: 1.10.0
+ManifestVersion: 1.12.0

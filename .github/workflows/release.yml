@@ -34,14 +34,23 @@ jobs:
         working-directory: C:\proj
         run: flutter build windows --release
 
-      - name: Zip Windows build
+      - name: Install Inno Setup
         shell: pwsh
-        run: Compress-Archive -Path C:\proj\build\windows\x64\runner\Release\* -DestinationPath "$env:GITHUB_WORKSPACE\goatly-windows.zip"
+        run: choco install innosetup --no-progress -y
+
+      - name: Build installer
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}".TrimStart('v')
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" `
+            /DAppVersion=$version `
+            /O"$env:GITHUB_WORKSPACE" `
+            C:\proj\windows\installer\goatly.iss
 
       - uses: actions/upload-artifact@v4
         with:
           name: goatly-windows
-          path: goatly-windows.zip
+          path: goatly-setup.exe
 
   # ─── macOS ──────────────────────────────────────────────────────────────────
   build-macos:
@@ -115,7 +124,7 @@ jobs:
           ls -lR .
           echo ""
           echo "Checking for required files:"
-          test -f goatly-windows/goatly-windows.zip && echo "✓ Windows zip found" || echo "✗ Windows zip NOT found"
+          test -f goatly-windows/goatly-setup.exe && echo "✓ Windows setup found" || echo "✗ Windows setup NOT found"
           test -f goatly-macos/goatly-macos.zip && echo "✓ macOS zip found" || echo "✗ macOS zip NOT found"
           test -f goatly-linux/goatly-linux.tar.gz && echo "✓ Linux tar.gz found" || echo "✗ Linux tar.gz NOT found"
 
@@ -129,10 +138,10 @@ jobs:
             ### Downloads
             | Platform | File |
             |----------|------|
-            | Windows  | `goatly-windows.zip` — extract and run the `.exe` |
+            | Windows  | `goatly-setup.exe` — run installer, creates Start menu shortcut |
             | macOS    | `goatly-macos.zip` — extract and drag `.app` to Applications |
             | Linux    | `goatly-linux.tar.gz` — extract and run the binary |
           files: |
-            goatly-windows/goatly-windows.zip
+            goatly-windows/goatly-setup.exe
             goatly-macos/goatly-macos.zip
             goatly-linux/goatly-linux.tar.gz
