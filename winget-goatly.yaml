@@ -3,7 +3,7 @@
 # This is a template for the winget-pkgs repository.
 
 PackageIdentifier: JustinGuese.GOATLY
-PackageVersion: 0.1.0
+PackageVersion: 0.0.0
 PackageName: GOATLY Meeting Summarizer
 Publisher: Justin Guese
 License: MIT
@@ -19,11 +19,11 @@ Tags:
 Installers:
   - Architecture: x64
     InstallerType: zip
-    InstallerUrl: https://github.com/JustinGuese/flutter-simple-meeting-recorder-transcriber-summarizer/releases/download/v0.1.0/goatly-windows.zip
-    InstallerSha256: REPLACE_WITH_ACTUAL_SHA256 # Run `CertUtil -hashfile goatly-windows.zip SHA256` after downloading.
+    InstallerUrl: https://github.com/JustinGuese/flutter-simple-meeting-recorder-transcriber-summarizer/releases/download/v0.0.0/goatly-windows.zip
+    InstallerSha256: c8c6c543b1ca02d4e31e3081a49521e515c3be11ac45a19cec10737599e433ea
     NestedInstallerType: portable
     NestedInstallerFiles:
-      - RelativePath: goatly_meeting_transcriber_summarizer.exe
+      - RelativePath: flutter_simple_meeting_recorder_transcriber_summarizer.exe
         PortableCommandAlias: goatly
 ManifestType: singleton
 ManifestVersion: 1.5.0
