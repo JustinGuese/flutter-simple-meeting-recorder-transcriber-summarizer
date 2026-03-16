@@ -55,7 +55,7 @@ Winget manifests are submitted to the [winget-pkgs repository](https://github.co
 4.  **Submit PR:**
     The easiest way is using `winget-create`:
     ```powershell
-    winget-create submit https://github.com/JustinGuese/flutter-simple-meeting-recorder-transcriber-summarizer/releases/download/v0.1.0/goatly-windows.zip
+    winget-create submit https://github.com/JustinGuese/flutter-simple-meeting-recorder-transcriber-summarizer/releases/download/v0.0.0/goatly-windows.zip
     ```
     Or manually fork `winget-pkgs` and follow their [manifest structure](https://github.com/microsoft/winget-pkgs/tree/master/manifests/j/JustinGuese/GOATLY).
 

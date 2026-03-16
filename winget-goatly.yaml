@@ -2,13 +2,12 @@
 # Reference: https://github.com/microsoft/winget-pkgs/tree/master/manifests
 # This is a template for the winget-pkgs repository.
 
-PackageIdentifier: JustinGuese.GOATLY
+PackageIdentifier: DataFortressCloud.GoatlyMeetingSummarizer
 PackageVersion: 0.0.0
-PackageName: GOATLY Meeting Summarizer
-Publisher: Justin Guese
+PackageName: Goatly - Meeting Transcriber and Summarizer
+Publisher: DataFortressCloud
 License: MIT
-ShortDescription: Free AI-powered meeting recorder, transcriber, and summarizer.
-Moniker: goatly
+ShortDescription: record, transcribe, summarize meetings easily on Windows, Mac, Linux, Android/iOS using cheap online APIs
 Tags:
   - meeting
   - summarizer
@@ -20,10 +19,9 @@ Installers:
   - Architecture: x64
     InstallerType: zip
     InstallerUrl: https://github.com/JustinGuese/flutter-simple-meeting-recorder-transcriber-summarizer/releases/download/v0.0.0/goatly-windows.zip
-    InstallerSha256: c8c6c543b1ca02d4e31e3081a49521e515c3be11ac45a19cec10737599e433ea
+    InstallerSha256: C8C6C543B1CA02D4E31E3081A49521E515C3BE11AC45A19CEC10737599E433EA
     NestedInstallerType: portable
     NestedInstallerFiles:
-      - RelativePath: flutter_simple_meeting_recorder_transcriber_summarizer.exe
-        PortableCommandAlias: goatly
+      - RelativeFilePath: flutter_simple_meeting_recorder_transcriber_summarizer.exe
 ManifestType: singleton
-ManifestVersion: 1.5.0
+ManifestVersion: 1.10.0
