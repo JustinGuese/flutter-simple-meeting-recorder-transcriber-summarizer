@@ -1,15 +1,16 @@
+# Created using wingetcreate 1.10.3.0
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.12.0.schema.json
 
-PackageIdentifier: DataFortressCloud.GoatlyMeetingSummarizer
+PackageIdentifier: DataFortressCloud.GOATLYMeetingSummarizer
 PackageVersion: 0.1.0
 PackageLocale: en-US
 Publisher: DataFortressCloud
 PublisherUrl: https://github.com/JustinGuese
 PublisherSupportUrl: https://github.com/JustinGuese/flutter-simple-meeting-recorder-transcriber-summarizer/issues
-PackageName: Goatly - Meeting Transcriber and Summarizer
+PackageName: GOATLY Meeting Summarizer
 PackageUrl: https://github.com/JustinGuese/flutter-simple-meeting-recorder-transcriber-summarizer
 License: MIT
-ShortDescription: record, transcribe, summarize meetings easily on Windows, Mac, Linux, Android/iOS using cheap online APIs
+ShortDescription: GOATLY Open-Source meeting transcriber and summarizer
 Tags:
 - artificial-intelligence
 - meeting-minutes
