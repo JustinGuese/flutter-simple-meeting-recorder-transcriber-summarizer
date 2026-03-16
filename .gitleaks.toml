@@ -1,0 +1,14 @@
+[extend]
+useDefault = true
+
+# Firebase client config files are intentionally public.
+# These keys are bundled in every compiled app binary and are not secret —
+# security is enforced via Firebase Security Rules, not by hiding these values.
+# See: https://firebase.google.com/docs/projects/api-keys
+[[rules.allowlists]]
+paths = [
+  "android/app/google-services.json",
+  "ios/Runner/GoogleService-Info.plist",
+  "macos/Runner/GoogleService-Info.plist",
+  "lib/firebase_options.dart",
+]

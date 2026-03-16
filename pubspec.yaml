@@ -1,0 +1,93 @@
+name: goatly_meeting_transcriber_summarizer
+description: Desktop meeting recorder with FAL wizper transcription and secure key storage.
+publish_to: "none"
+
+version: 0.1.0+1
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  df_ui_widgets:
+    git:
+      url: https://github.com/JustinGuese/df_flutter_shared.git
+      path: df_ui_widgets
+      ref: main
+    # path: ../df_flutter_shared/df_ui_widgets
+
+  df_ai_consent:
+    git:
+      url: https://github.com/JustinGuese/df_flutter_shared.git
+      path: df_ai_consent
+      ref: main
+    # path: ../df_flutter_shared/df_ai_consent
+
+  # Routing
+  go_router: ^17.0.0
+
+  # Firebase
+  firebase_core: ^4.5.0
+  firebase_auth: ^6.1.2
+
+  # Device ID generation
+  uuid: ^4.5.0
+
+  # Desktop window controls
+  window_manager: ^0.5.1
+
+  # Audio capture (mic + system / loopback) — using fork with Linux include fix
+  desktop_audio_capture:
+    git:
+      url: https://github.com/JustinGuese/desktop_audio_capture
+      ref: main
+  record: ^6.2.0
+  cross_file: ^0.3.4
+  shared_preferences: ^2.3.2
+
+  # Runtime key storage for user-provided API keys
+  flutter_secure_storage: ^10.0.0
+
+  # File and path utilities
+  path: ^1.9.0
+  path_provider: ^2.1.5
+
+  # Env config (build-time obfuscation)
+  envied: ^1.3.3
+  fal_client: ^0.3.0
+  http: ^1.2.0
+  http_parser: ^4.0.0
+
+  # Date formatting
+  intl: ^0.20.2
+
+  # URL launching
+  url_launcher: ^6.3.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
+  envied_generator: ^1.3.3
+  build_runner: ^2.4.13
+
+flutter:
+  uses-material-design: true
+
+flutter_launcher_icons:
+  image_path: "logo.jpg"
+  android: true
+  ios: true
+  macos:
+    generate: true
+    image_path: "logo.jpg"
+  windows:
+    generate: true
+    image_path: "logo.jpg"
+  linux:
+    generate: true
+    image_path: "logo.jpg"
+
