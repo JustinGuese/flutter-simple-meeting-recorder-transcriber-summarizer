@@ -32,16 +32,37 @@ set(CMAKE_CXX_FLAGS_PROFILE "${CMAKE_CXX_FLAGS_RELEASE}")
 # Use Unicode for all projects.
 add_definitions(-DUNICODE -D_UNICODE)
 
-# CI workaround: MSVC cannot resolve #include directives through Windows
-# junction points in .plugin_symlinks. Add real pub cache plugin windows
-# directories as explicit include paths so MSVC finds them without junctions.
-if(DEFINED ENV{PUB_CACHE})
-  file(GLOB _PUB_PLUGIN_WINDOWS_DIRS "$ENV{PUB_CACHE}/hosted/pub.dev/*/windows")
-  foreach(_dir ${_PUB_PLUGIN_WINDOWS_DIRS})
-    if(IS_DIRECTORY "${_dir}")
-      include_directories("${_dir}")
+# CI workaround: MSVC cannot compile files accessed through Windows junction
+# points in .plugin_symlinks (include resolution and output path computation
+# both fail). Replace each junction with a real copy of its target directory
+# at CMake configure time, before .vcxproj files are generated.
+if(MSVC)
+  set(_symlinks_dir "${CMAKE_CURRENT_SOURCE_DIR}/flutter/ephemeral/.plugin_symlinks")
+  if(IS_DIRECTORY "${_symlinks_dir}")
+    set(_ps_file "${CMAKE_CURRENT_BINARY_DIR}/resolve_junctions.ps1")
+    file(WRITE "${_ps_file}" [=[
+param([string]$Dir)
+foreach ($item in (Get-ChildItem -LiteralPath $Dir -ErrorAction SilentlyContinue)) {
+  if ($item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
+    $tgt = $item.Target
+    if ($tgt -is [array]) { $tgt = $tgt[0] }
+    if ($tgt) {
+      [System.IO.Directory]::Delete($item.FullName, $false)
+      Copy-Item -LiteralPath $tgt -Destination $item.FullName -Recurse -Force
+      Write-Host "Resolved: $($item.Name)"
+    }
+  }
+}
+]=])
+    execute_process(
+      COMMAND powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass
+              -File "${_ps_file}" "${_symlinks_dir}"
+      RESULT_VARIABLE _ps_rc
+    )
+    if(_ps_rc)
+      message(WARNING "resolve_junctions.ps1 exited with code ${_ps_rc}")
     endif()
-  endforeach()
+  endif()
 endif()
 
 # Compilation settings that should be applied to most targets.
