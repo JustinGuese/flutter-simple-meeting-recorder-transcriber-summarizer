@@ -22,11 +22,12 @@ jobs:
 
       - name: Shorten workspace path via subst
         shell: pwsh
-        run: subst Z: "$env:GITHUB_WORKSPACE"
+        run: |
+          subst Z: "$env:GITHUB_WORKSPACE"
 
       - name: Build Windows
+        working-directory: 'Z:\'
         run: flutter build windows --release
-        working-directory: Z:\
 
       - name: Zip Windows build
         shell: pwsh
