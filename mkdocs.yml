@@ -28,8 +28,6 @@ theme:
 
 plugins:
   - search
-  - sitemap:
-      hostname_change: true
 
 markdown_extensions:
   - toc:
