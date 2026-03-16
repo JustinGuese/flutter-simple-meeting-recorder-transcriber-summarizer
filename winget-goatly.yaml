@@ -1,0 +1,29 @@
+# winget-goatly.yaml
+# Reference: https://github.com/microsoft/winget-pkgs/tree/master/manifests
+# This is a template for the winget-pkgs repository.
+
+PackageIdentifier: JustinGuese.GOATLY
+PackageVersion: 0.1.0
+PackageName: GOATLY Meeting Summarizer
+Publisher: Justin Guese
+License: MIT
+ShortDescription: Free AI-powered meeting recorder, transcriber, and summarizer.
+Moniker: goatly
+Tags:
+  - meeting
+  - summarizer
+  - transcription
+  - ai
+  - whisper
+  - flutter
+Installers:
+  - Architecture: x64
+    InstallerType: zip
+    InstallerUrl: https://github.com/JustinGuese/flutter-simple-meeting-recorder-transcriber-summarizer/releases/download/v0.1.0/goatly-windows.zip
+    InstallerSha256: REPLACE_WITH_ACTUAL_SHA256 # Run `CertUtil -hashfile goatly-windows.zip SHA256` after downloading.
+    NestedInstallerType: portable
+    NestedInstallerFiles:
+      - RelativePath: goatly_meeting_transcriber_summarizer.exe
+        PortableCommandAlias: goatly
+ManifestType: singleton
+ManifestVersion: 1.5.0

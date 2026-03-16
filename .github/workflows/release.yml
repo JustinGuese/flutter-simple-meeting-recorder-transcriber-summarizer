@@ -20,11 +20,8 @@ jobs:
 
       - run: flutter pub get
 
-      - name: Repair pub cache (ensure plugin headers are extracted)
-        run: flutter pub cache repair
-
       - name: Build Windows
-        run: flutter build windows --release
+        run: flutter build windows --release -- -DCMAKE_INCLUDE_CURRENT_DIR=ON
 
       - name: Zip Windows build
         run: Compress-Archive -Path build\windows\x64\runner\Release\* -DestinationPath goatly-windows.zip

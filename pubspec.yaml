@@ -38,8 +38,11 @@ dependencies:
   # Desktop window controls
   window_manager: ^0.5.1
 
-  # Audio capture (mic + system / loopback)
-  desktop_audio_capture: ^0.0.2
+  # Audio capture (mic + system / loopback) — using fork with Linux include fix
+  desktop_audio_capture:
+    git:
+      url: https://github.com/JustinGuese/desktop_audio_capture
+      ref: main
   record: ^6.2.0
   cross_file: ^0.3.4
   shared_preferences: ^2.3.2
