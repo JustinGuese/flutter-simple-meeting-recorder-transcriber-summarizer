@@ -1,3 +1,8 @@
+---
+description: Learn how to get started with GOATLY for meeting transcription and summarization. Install or build from source on Windows, macOS, and Linux.
+keywords: install meeting summarizer, build from source, GOATLY setup, meeting transcription guide
+---
+
 # Getting Started
 
 ## Option A — Download a release (recommended)

@@ -1,3 +1,8 @@
+---
+description: Configure GOATLY for meeting transcription. Learn about managed mode and how to bring your own FAL and OpenRouter API keys.
+keywords: GOATLY configuration, API keys, managed mode, self-hosted transcription, FAL key, OpenRouter key
+---
+
 # Configuration
 
 ## Managed mode (default)

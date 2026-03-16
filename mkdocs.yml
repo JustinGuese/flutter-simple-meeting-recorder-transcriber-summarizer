@@ -1,10 +1,13 @@
 site_name: GOATLY Meeting Summarizer
 site_url: https://justinguese.github.io/flutter-simple-meeting-recorder-transcriber-summarizer/
+site_description: "GOATLY: The free and easy AI meeting recorder, transcriber, and summarizer. Open-source, cross-platform, and available with an optional managed mode for seamless productivity."
+site_author: Justin Guese
 repo_url: https://github.com/JustinGuese/flutter-simple-meeting-recorder-transcriber-summarizer
 repo_name: JustinGuese/goatly
 
 theme:
   name: material
+  language: en
   palette:
     scheme: slate
     primary: indigo
@@ -12,11 +15,54 @@ theme:
   features:
     - navigation.instant
     - navigation.top
+    - navigation.tracking
+    - navigation.sections
+    - navigation.expand
     - content.code.copy
+    - search.suggest
+    - search.highlight
+    - search.share
+  icon:
+    repo: fontawesome/brands/github
+  logo: logo.jpg
+
+plugins:
+  - search
+  - sitemap:
+      hostname_change: true
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
 
 nav:
   - Home: index.md
-  - Getting Started: getting-started.md
-  - Usage: usage.md
-  - Configuration: configuration.md
-  - Contributing: contributing.md
+  - Best Meeting Summarizers 2026: best-meeting-summarizers.md
+  - Tutorials:
+    - Transcribe for Free on Windows: how-to-transcribe-free-windows.md
+  - Documentation:
+    - Getting Started: getting-started.md
+    - Usage: usage.md
+    - Configuration: configuration.md
+    - Contributing: contributing.md
+  - Legal:
+    - Privacy Policy: privacy.md
+    - Terms of Service: terms.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/JustinGuese
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/justinguese/

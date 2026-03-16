@@ -1,17 +1,31 @@
+---
+description: GOATLY is a free and easy meeting transcription and AI summarization tool. Open-source, cross-platform, and privacy-first.
+keywords: meeting transcription, meeting summarizer, AI transcription, free meeting recorder, open source, managed mode
+---
+
 # GOATLY Meeting Summarizer
 
 ![GOATLY screenshot](../screenshot.png)
 
-**GOATLY** is a cross-platform desktop (and mobile) app for recording meetings and automatically transcribing and summarizing them using AI — no cloud subscription, no browser extension, just a native app.
+**GOATLY** is a cross-platform desktop and mobile application designed for **free and easy meeting transcription** and **AI-powered summarization**. Whether you're a student, professional, or researcher, GOATLY helps you focus on the conversation while AI handles the notes.
+
+## Our Vision
+
+We believe that high-quality **meeting transcription** and **summarization** should be accessible to everyone. Our vision is to provide a powerful, privacy-first tool that offers the best of both worlds:
+
+1.  **Complete Freedom:** A fully **open-source** experience where you bring your own API keys and maintain total control over your data.
+2.  **Effortless Productivity:** An **optional managed mode** for those who want a "just works" experience without managing API keys or infrastructure.
+
+By bridging the gap between open-source flexibility and managed convenience, GOATLY aims to be the go-to solution for anyone looking to transcribe and summarize meetings across Windows, macOS, Linux, iOS, and Android.
 
 ## Features
 
-- **One-click recording** — start/stop your microphone with a single button
-- **AI transcription** — powered by [FAL Wizper](https://fal.ai/models/fal-ai/wizper), a fast speech-to-text model
-- **AI summarization** — key points extracted automatically via OpenRouter LLMs
-- **Search & sort** — full-text search across all your past recordings; sort by date or name
-- **Secure key storage** — encrypted per-device storage via `flutter_secure_storage`
-- **Cross-platform** — Windows, macOS, Linux (desktop); iOS & Android (mobile)
+- **One-click recording** — Start and stop your microphone with a single button.
+- **AI transcription** — Lightning-fast speech-to-text powered by [FAL Wizper](https://fal.ai/models/fal-ai/wizper).
+- **AI summarization** — Get key points and action items automatically via OpenRouter LLMs.
+- **Search & sort** — Powerful full-text search across all your past recordings.
+- **Secure key storage** — Your API keys are encrypted and stored locally on your device.
+- **Cross-platform** — Native performance on Windows, macOS, Linux, iOS, and Android.
 
 ## Deployment modes
 
@@ -42,6 +56,8 @@ Pre-built binaries are attached to every [GitHub Release](https://github.com/Jus
 
 ## Quick links
 
+- [Best Meeting Summarizers 2026](best-meeting-summarizers.md) — How GOATLY compares to the competition.
+- [Tutorial: Transcribe for Free on Windows](how-to-transcribe-free-windows.md) — Step-by-step guide for Windows users.
 - [Getting Started](getting-started.md) — install and first run
 - [Usage](usage.md) — record → transcribe → summarize walkthrough
 - [Configuration](configuration.md) — managed mode vs. bring-your-own-key

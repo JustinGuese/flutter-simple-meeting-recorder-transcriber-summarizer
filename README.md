@@ -1,21 +1,28 @@
-## GOATLY Meeting Summarizer
+## GOATLY Meeting Summarizer: Free AI Transcription & Summary
 
 ![GOATLY logo](logo.jpg)
 
 ![App screenshot](screenshot.png)
 
-**GOATLY** is a cross-platform desktop (and mobile) app for recording meetings and automatically transcribing and summarizing them using AI.
+**GOATLY** is a cross-platform desktop and mobile application designed for **free and easy meeting transcription** and **AI-powered summarization**. Use it to record meetings on Windows, macOS, Linux, iOS, or Android, and get instant, searchable transcripts and summaries.
 
 **[Full documentation →](https://justinguese.github.io/flutter-simple-meeting-recorder-transcriber-summarizer/)**
 
+### Our Vision
+
+We believe that high-quality **meeting transcription** and **summarization** should be accessible to everyone. Our vision is to provide a powerful, privacy-first tool that offers the best of both worlds:
+
+- **Complete Freedom:** A fully **open-source** experience where you bring your own API keys (FAL, OpenRouter) and maintain total control over your data.
+- **Effortless Productivity:** An **optional managed mode** for those who want a seamless, "just works" experience without managing API keys or infrastructure.
+
 ### Features
 
-- One-click microphone recording written to a local WAV file
-- AI transcription via [FAL Wizper](https://fal.ai/models/fal-ai/wizper)
-- AI summarization via OpenRouter LLMs
-- Search and sort across all past recordings
-- Secure per-device key storage via `flutter_secure_storage`
-- Windows, macOS, Linux (desktop) + iOS, Android (mobile)
+- **One-click recording** — Start and stop your microphone with a single button.
+- **AI transcription** — Lightning-fast speech-to-text powered by [FAL Wizper](https://fal.ai/models/fal-ai/wizper).
+- **AI summarization** — Get key points and action items automatically via OpenRouter LLMs.
+- **Search & sort** — Powerful full-text search across all your past recordings.
+- **Secure key storage** — Your API keys are encrypted and stored locally via `flutter_secure_storage`.
+- **Cross-platform** — Native performance on Windows, macOS, Linux, iOS, and Android.
 
 ### Deployment modes
 

@@ -1,3 +1,8 @@
+---
+description: Contribute to GOATLY. Learn about development setup, project structure, and local path dependencies.
+keywords: contribute to GOATLY, open source contribution, Flutter meeting summarizer development, developer guide
+---
+
 # Contributing
 
 ## Dev setup

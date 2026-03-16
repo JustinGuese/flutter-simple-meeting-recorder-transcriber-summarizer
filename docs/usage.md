@@ -1,3 +1,8 @@
+---
+description: Learn how to record meetings, transcribe audio, and generate AI summaries with GOATLY. A step-by-step guide for Windows, macOS, and mobile.
+keywords: record meeting, meeting transcription guide, AI summary walkthrough, GOATLY usage, speech to text
+---
+
 # Usage
 
 ## Recording a meeting
