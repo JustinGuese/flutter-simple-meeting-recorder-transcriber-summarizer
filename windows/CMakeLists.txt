@@ -58,25 +58,6 @@ add_subdirectory("runner")
 # them to the application.
 include(flutter/generated_plugins.cmake)
 
-# CI workaround: MSVC cannot resolve relative #include paths through Windows
-# junction points in .plugin_symlinks. Add the real pub-cache source directory
-# as a PRIVATE include path on each affected plugin target so MSVC finds the
-# headers without needing to follow the junction.
-if(MSVC AND DEFINED ENV{PUB_CACHE})
-  set(_raw_pub_cache "$ENV{PUB_CACHE}")
-  string(REPLACE "\\" "/" _pub_cache "${_raw_pub_cache}")
-  foreach(_pkg IN ITEMS "flutter_secure_storage_windows" "screen_retriever_windows")
-    if(TARGET "${_pkg}_plugin")
-      file(GLOB _dirs "${_pub_cache}/hosted/pub.dev/${_pkg}-*/windows")
-      foreach(_dir ${_dirs})
-        if(IS_DIRECTORY "${_dir}")
-          target_include_directories("${_pkg}_plugin" PRIVATE "${_dir}")
-          message(STATUS "Added include for ${_pkg}: ${_dir}")
-        endif()
-      endforeach()
-    endif()
-  endforeach()
-endif()
 
 # === Installation ===
 # Support files are copied into place next to the executable, so that it can

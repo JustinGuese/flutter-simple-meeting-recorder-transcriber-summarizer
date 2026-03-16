@@ -20,6 +20,31 @@ jobs:
 
       - run: flutter pub get
 
+      - name: Set MSVC extra include dirs via CL env var
+        shell: pwsh
+        run: |
+          # MSVC reads the CL env var and prepends its contents to every cl.exe
+          # invocation. We use this to add real pub-cache paths for plugins whose
+          # headers cannot be found through .plugin_symlinks junction points.
+          $pub = $env:PUB_CACHE
+          $flags = @()
+          foreach ($pkg in @("flutter_secure_storage_windows", "screen_retriever_windows")) {
+            $dirs = Get-ChildItem "$pub\hosted\pub.dev" -Filter "$pkg-*" -Directory -ErrorAction SilentlyContinue
+            if ($dirs) {
+              $latest = ($dirs | Sort-Object Name | Select-Object -Last 1)
+              $pkgDir = "$pub\hosted\pub.dev\$($latest.Name)\windows"
+              if (Test-Path $pkgDir) {
+                $flags += "/I`"$pkgDir`""
+                Write-Host "Adding include: $pkgDir"
+              }
+            }
+          }
+          if ($flags.Count -gt 0) {
+            $cl = $flags -join " "
+            echo "CL=$cl" >> $env:GITHUB_ENV
+            Write-Host "CL set to: $cl"
+          }
+
       - name: Build Windows
         run: flutter build windows --release
 
