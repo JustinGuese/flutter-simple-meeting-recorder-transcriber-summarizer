@@ -4,14 +4,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:goatly_meeting_transcriber_summarizer/main.dart';
-import 'package:goatly_meeting_transcriber_summarizer/src/audio/audio_capture_service.dart';
 import 'package:goatly_meeting_transcriber_summarizer/src/controllers/app_controller.dart';
 import 'package:goatly_meeting_transcriber_summarizer/src/repository/meeting_repository.dart';
 import 'package:goatly_meeting_transcriber_summarizer/src/services/ai_consent_service.dart';
 import 'package:goatly_meeting_transcriber_summarizer/src/services/app_mode_service.dart';
-import 'package:goatly_meeting_transcriber_summarizer/src/services/backend_api_service.dart';
-import 'package:goatly_meeting_transcriber_summarizer/src/services/device_id_service.dart';
+import 'package:df_audio_capture/df_audio_capture.dart';
+import 'package:df_device_id/df_device_id.dart';
 import 'package:goatly_meeting_transcriber_summarizer/src/services/usage_service.dart';
+import 'package:goatly_meeting_transcriber_summarizer/src/services/backend_api_service.dart';
 import 'package:goatly_meeting_transcriber_summarizer/src/summary/managed_summary_service.dart';
 import 'package:goatly_meeting_transcriber_summarizer/src/summary/openrouter_summary_service.dart';
 import 'package:goatly_meeting_transcriber_summarizer/src/transcription/fal_transcription_service.dart';

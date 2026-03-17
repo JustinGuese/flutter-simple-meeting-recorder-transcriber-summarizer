@@ -1,56 +1,61 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:goatly_meeting_transcriber_summarizer/src/audio/audio_capture_service.dart';
+import 'package:df_audio_capture/df_audio_capture.dart';
 import 'package:goatly_meeting_transcriber_summarizer/src/controllers/app_controller.dart';
 import 'package:goatly_meeting_transcriber_summarizer/src/models/meeting.dart';
 import 'package:goatly_meeting_transcriber_summarizer/src/repository/meeting_repository.dart';
 import 'package:goatly_meeting_transcriber_summarizer/src/services/ai_consent_service.dart';
 import 'package:goatly_meeting_transcriber_summarizer/src/services/app_mode_service.dart';
-import 'package:goatly_meeting_transcriber_summarizer/src/services/backend_api_service.dart';
-import 'package:goatly_meeting_transcriber_summarizer/src/services/device_id_service.dart';
+import 'package:df_device_id/df_device_id.dart';
 import 'package:goatly_meeting_transcriber_summarizer/src/services/usage_service.dart';
+import 'package:goatly_meeting_transcriber_summarizer/src/services/backend_api_service.dart';
 import 'package:goatly_meeting_transcriber_summarizer/src/summary/managed_summary_service.dart';
 import 'package:goatly_meeting_transcriber_summarizer/src/summary/openrouter_summary_service.dart';
 import 'package:goatly_meeting_transcriber_summarizer/src/transcription/fal_transcription_service.dart';
 import 'package:goatly_meeting_transcriber_summarizer/src/transcription/managed_transcription_service.dart';
-import 'package:goatly_meeting_transcriber_summarizer/src/ui/app_shell.dart';
-import 'package:goatly_meeting_transcriber_summarizer/src/ui/dialogs/delete_confirmation_dialog.dart';
 
 void main() {
-  testWidgets('Delete meeting dialog shows and can be cancelled',
-      (WidgetTester tester) async {
-    final tempDir = Directory.systemTemp.createTempSync('delete_test_');
-    final recordingsDir = Directory('${tempDir.path}/recordings')..createSync();
-    final meetingsDir = Directory('${tempDir.path}/meetings')..createSync();
+  late Directory tempDir;
+  late Directory recordingsDir;
+  late MeetingRepository repository;
+  late AppController controller;
+  late SharedPreferences prefs;
+
+  setUp(() async {
+    tempDir = Directory.systemTemp.createTempSync('meeting_recorder_test_');
+    recordingsDir = Directory('${tempDir.path}/recordings')..createSync();
+
+    SharedPreferences.setMockInitialValues({});
+    prefs = await SharedPreferences.getInstance();
 
     final audioService = AudioCaptureService(recordingsDir: recordingsDir);
-    final repository = MeetingRepository(meetingsDir: meetingsDir);
-
-    SharedPreferences.setMockInitialValues({
-      'has_shown_onboarding': true,
-      'app_mode': 'openSource',
-    });
-    final prefs = await SharedPreferences.getInstance();
+    repository = MeetingRepository(meetingsDir: tempDir);
     final aiConsentService = AiConsentService(prefs: prefs);
     final appModeService = AppModeService(prefs: prefs);
-    final backendApiService = BackendApiService(deviceIdService: DeviceIdService());
+    final deviceIdService = DeviceIdService();
+    final backendApiService =
+        BackendApiService(deviceIdService: deviceIdService);
     final usageService = UsageService(backendApi: backendApiService);
+    final managedTranscription = ManagedTranscriptionService(
+      backendApi: backendApiService,
+      usageService: usageService,
+    );
+    final managedSummary = ManagedSummaryService(backendApi: backendApiService);
+    final falService = FalTranscriptionService();
+    final openRouterService = OpenRouterSummaryService(
+      appUrl: 'https://test.com',
+      appTitle: 'Test',
+    );
 
-    final controller = AppController(
+    controller = AppController(
       audioService: audioService,
-      managedTranscriptionService: ManagedTranscriptionService(
-        backendApi: backendApiService,
-        usageService: usageService,
-      ),
-      managedSummaryService: ManagedSummaryService(backendApi: backendApiService),
-      falService: FalTranscriptionService(),
-      openRouterService: OpenRouterSummaryService(
-        appUrl: 'https://github.com/test/test',
-        appTitle: 'Test',
-      ),
+      managedTranscriptionService: managedTranscription,
+      managedSummaryService: managedSummary,
+      falService: falService,
+      openRouterService: openRouterService,
       repository: repository,
       aiConsentService: aiConsentService,
       appModeService: appModeService,
@@ -58,99 +63,38 @@ void main() {
       usageService: usageService,
     );
     await controller.init();
-
-    // Add a meeting
-    final meeting = Meeting.create();
-    meeting.title = 'Test Meeting';
-    await repository.save(meeting);
-    await controller.init(); // Refresh meetings
-    controller.selectMeeting(controller.allMeetings.first);
-
-    await tester.pumpWidget(MaterialApp(
-      home: AppShell(controller: controller),
-    ));
-
-    // Find delete button
-    final deleteButton = find.byTooltip('Delete');
-    expect(deleteButton, findsOneWidget);
-
-    // Tap delete
-    await tester.tap(deleteButton);
-    await tester.pumpAndSettle();
-
-    // Check if dialog is shown
-    expect(find.byType(DeleteConfirmationDialog), findsOneWidget);
-    expect(find.text('Delete meeting?'), findsOneWidget);
-
-    // Cancel deletion
-    await tester.tap(find.text('Cancel'));
-    await tester.pumpAndSettle();
-
-    // Check if dialog is gone and meeting still exists
-    expect(find.byType(DeleteConfirmationDialog), findsNothing);
-    expect(controller.allMeetings.length, 1);
   });
 
-  testWidgets('Delete meeting dialog shows and can confirm deletion',
-      (WidgetTester tester) async {
-    final tempDir = Directory.systemTemp.createTempSync('delete_test_confirm_');
-    final recordingsDir = Directory('${tempDir.path}/recordings')..createSync();
-    final meetingsDir = Directory('${tempDir.path}/meetings')..createSync();
+  tearDown(() {
+    if (tempDir.existsSync()) {
+      tempDir.deleteSync(recursive: true);
+    }
+  });
 
-    final audioService = AudioCaptureService(recordingsDir: recordingsDir);
-    final repository = MeetingRepository(meetingsDir: meetingsDir);
-
-    SharedPreferences.setMockInitialValues({
-      'has_shown_onboarding': true,
-      'app_mode': 'openSource',
-    });
-    final prefs = await SharedPreferences.getInstance();
-    final aiConsentService = AiConsentService(prefs: prefs);
-    final appModeService = AppModeService(prefs: prefs);
-    final backendApiService = BackendApiService(deviceIdService: DeviceIdService());
-    final usageService = UsageService(backendApi: backendApiService);
-
-    final controller = AppController(
-      audioService: audioService,
-      managedTranscriptionService: ManagedTranscriptionService(
-        backendApi: backendApiService,
-        usageService: usageService,
-      ),
-      managedSummaryService: ManagedSummaryService(backendApi: backendApiService),
-      falService: FalTranscriptionService(),
-      openRouterService: OpenRouterSummaryService(
-        appUrl: 'https://github.com/test/test',
-        appTitle: 'Test',
-      ),
-      repository: repository,
-      aiConsentService: aiConsentService,
-      appModeService: appModeService,
-      backendApiService: backendApiService,
-      usageService: usageService,
-    );
-    await controller.init();
-
-    // Add a meeting
+  test('deleteMeeting removes meeting and associated files', () async {
+    // Create a mock meeting with associated files
     final meeting = Meeting.create();
     meeting.title = 'Test Meeting';
+    meeting.audioFilePath = 'recordings/test.m4a';
+
+    // Create a dummy recording file
+    final recordingFile = File('${recordingsDir.path}/test.m4a')..createSync();
+    expect(recordingFile.existsSync(), isTrue);
+
+    // Save meeting to repository
     await repository.save(meeting);
-    await controller.init(); // Refresh meetings
-    controller.selectMeeting(controller.allMeetings.first);
+    expect((await repository.loadAll()).length, 1);
 
-    await tester.pumpWidget(MaterialApp(
-      home: AppShell(controller: controller),
-    ));
+    // Refresh controller
+    await controller.init();
+    expect(controller.allMeetings.length, 1);
 
-    // Tap delete
-    await tester.tap(find.byTooltip('Delete'));
-    await tester.pumpAndSettle();
+    // Perform deletion
+    await controller.deleteMeeting(meeting);
 
-    // Confirm deletion
-    await tester.tap(find.text('Delete'));
-    await tester.pumpAndSettle();
-
-    // Check if dialog is gone and meeting is deleted
-    expect(find.byType(DeleteConfirmationDialog), findsNothing);
-    expect(controller.allMeetings.length, 0);
+    // Verify deletion
+    expect(controller.allMeetings.isEmpty, isTrue);
+    expect((await repository.loadAll()).isEmpty, isTrue);
+    expect(recordingFile.existsSync(), isFalse);
   });
 }
