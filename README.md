@@ -75,5 +75,6 @@ Pre-built binaries are attached to every [GitHub Release](../../releases).
 
 ### Notes
 
-- Currently records the **microphone**; system/loopback capture can be layered on top of `AudioCaptureService`.
-- See the [docs site](https://justinguese.github.io/flutter-simple-meeting-recorder-transcriber-summarizer/) for the full usage guide, configuration reference, and contributing instructions.
+- **System Audio Capture:** Supports both microphone and system/loopback recording on Desktop platforms via the shared `df_audio_capture` library.
+- **Shared Libraries:** This project utilizes the [df_flutter_shared](https://github.com/JustinGuese/df_flutter_shared) ecosystem for core functionalities including audio capture, REST-based Firebase Auth (Windows/Linux), and unique device identification.
+- See the [docs site](https://justinguese.github.io/flutter-simple-meeting-recorder-transcriber-summarizer/) for the full usage guide, configuration reference, [shared library documentation](https://justinguese.github.io/flutter-simple-meeting-recorder-transcriber-summarizer/shared-libraries/), and contributing instructions.

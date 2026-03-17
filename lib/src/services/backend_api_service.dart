@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
-import 'device_id_service.dart';
+import 'package:df_device_id/df_device_id.dart';
 
 const _defaultBaseUrl = 'https://meetingrecorderbackend-api.datafortress.cloud';
 
@@ -81,11 +81,12 @@ class BackendApiService {
     final uri = Uri.parse('$_baseUrl/api/v1/transcribe');
     final request = http.MultipartRequest('POST', uri);
     request.headers.addAll(await _headers());
+    final subtype = filename.toLowerCase().endsWith('.wav') ? 'wav' : 'mpeg';
     request.files.add(http.MultipartFile.fromBytes(
       'file',
       audioBytes,
       filename: filename,
-      contentType: MediaType('audio', 'mpeg'),
+      contentType: MediaType('audio', subtype),
     ));
 
     final streamed = await _client.send(request);

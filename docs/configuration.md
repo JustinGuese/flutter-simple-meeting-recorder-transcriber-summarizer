@@ -60,6 +60,8 @@ Keys are stored in `flutter_secure_storage` (encrypted on-device) and take prece
 
 ## Firebase / Auth (managed mode only)
 
-Managed mode uses Firebase Auth. The Firebase configuration (`google-services.json` / `GoogleService-Info.plist`) is included in the repository for the managed deployment.
+Managed mode uses Firebase Auth. On platforms where the official SDK is supported (Android, iOS, macOS, Web), we use the native `firebase_auth` plugin. For Windows and Linux, we employ a custom REST-based implementation provided by the shared package `df_firebase_rest`.
+
+The Firebase configuration (`google-services.json` / `GoogleService-Info.plist`) is included in the repository for the managed deployment.
 
 If you are self-hosting the managed backend, replace these files with your own Firebase project credentials.

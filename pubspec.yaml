@@ -2,7 +2,7 @@ name: goatly_meeting_transcriber_summarizer
 description: Desktop meeting recorder with FAL wizper transcription and secure key storage.
 publish_to: "none"
 
-version: 0.1.0+1
+version: 0.1.1+1
 
 environment:
   sdk: ">=3.3.0 <4.0.0"
@@ -12,18 +12,32 @@ dependencies:
     sdk: flutter
 
   df_ui_widgets:
+    # path: ../df_flutter_shared/df_ui_widgets
     git:
       url: https://github.com/JustinGuese/df_flutter_shared.git
       path: df_ui_widgets
       ref: main
-    # path: ../df_flutter_shared/df_ui_widgets
 
   df_ai_consent:
+    # path: ../df_flutter_shared/df_ai_consent
     git:
       url: https://github.com/JustinGuese/df_flutter_shared.git
       path: df_ai_consent
       ref: main
-    # path: ../df_flutter_shared/df_ai_consent
+
+  df_audio_capture:
+    # path: ../df_flutter_shared/df_audio_capture
+    git:
+      url: https://github.com/JustinGuese/df_flutter_shared.git
+      path: df_audio_capture
+      ref: main
+
+  df_device_id:
+    # path: ../df_flutter_shared/df_device_id
+    git:
+      url: https://github.com/JustinGuese/df_flutter_shared.git
+      path: df_device_id
+      ref: main
 
   # Routing
   go_router: ^17.0.0
@@ -31,6 +45,12 @@ dependencies:
   # Firebase
   firebase_core: ^4.5.0
   firebase_auth: ^6.1.2
+  df_firebase_rest:
+    # path: ../df_flutter_shared/df_firebase_rest
+    git:
+      url: https://github.com/JustinGuese/df_flutter_shared.git
+      path: df_firebase_rest
+      ref: main
 
   # Device ID generation
   uuid: ^4.5.0
@@ -90,4 +110,3 @@ flutter_launcher_icons:
   linux:
     generate: true
     image_path: "logo.jpg"
-

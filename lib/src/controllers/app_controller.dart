@@ -1,11 +1,12 @@
 import 'dart:async';
+import 'dart:developer' as developer;
 
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as p;
 
-import '../audio/audio_capture_service.dart';
+import 'package:df_audio_capture/df_audio_capture.dart';
 import '../models/meeting.dart';
 import '../repository/meeting_repository.dart';
 import '../platform/fs_ops.dart';
@@ -387,12 +388,15 @@ class AppController extends ChangeNotifier {
       } on OpenRouterMissingKeyException catch (e) {
         meeting.summaryStatus = SummaryStatus.failed;
         meeting.summaryErrorMessage = e.toString();
+        developer.log('Summary failed: missing key', name: 'AppController', error: e);
       } on OpenRouterApiException catch (e) {
         meeting.summaryStatus = SummaryStatus.failed;
         meeting.summaryErrorMessage = e.toString();
-      } catch (e) {
+        developer.log('Summary failed: API error', name: 'AppController', error: e);
+      } catch (e, st) {
         meeting.summaryStatus = SummaryStatus.failed;
         meeting.summaryErrorMessage = 'Summary failed: $e';
+        developer.log('Summary failed', name: 'AppController', error: e, stackTrace: st);
       } finally {
         _isSummarizing = false;
       }
@@ -401,10 +405,12 @@ class AppController extends ChangeNotifier {
       meeting.errorMessage = 'Free tier limit reached';
       _pendingPaywall = e;
       _errorMessage = 'Reached free tier limit';
-    } catch (e) {
+      developer.log('Transcription blocked by free tier limit', name: 'AppController', error: e);
+    } catch (e, st) {
       meeting.transcriptionStatus = TranscriptionStatus.failed;
       meeting.errorMessage = e.toString();
       _errorMessage = 'Transcription failed: $e';
+      developer.log('Transcription failed', name: 'AppController', error: e, stackTrace: st);
     } finally {
       _isTranscribing = false;
       meeting.updatedAt = DateTime.now();

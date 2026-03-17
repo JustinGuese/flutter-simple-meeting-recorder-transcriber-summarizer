@@ -123,6 +123,25 @@ class _MeetingDetailViewState extends State<MeetingDetailView> {
                   const SizedBox(height: 24),
                   _buildTranscriptionSection(theme),
                 ],
+                if (widget.meeting.transcriptionStatus == TranscriptionStatus.failed &&
+                    widget.meeting.errorMessage != null) ...[
+                  const SizedBox(height: 12),
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.errorContainer.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: theme.colorScheme.error.withOpacity(0.4)),
+                    ),
+                    child: Text(
+                      widget.meeting.errorMessage!,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onErrorContainer,
+                      ),
+                    ),
+                  ),
+                ],
                 if (widget.meeting.transcription.isEmpty &&
                     widget.meeting.transcriptionStatus == TranscriptionStatus.none &&
                     !widget.isActive) ...[

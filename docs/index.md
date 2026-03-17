@@ -61,4 +61,5 @@ Pre-built binaries are attached to every [GitHub Release](https://github.com/Jus
 - [Getting Started](getting-started.md) — install and first run
 - [Usage](usage.md) — record → transcribe → summarize walkthrough
 - [Configuration](configuration.md) — managed mode vs. bring-your-own-key
+- [Shared Libraries](shared-libraries.md) — reusable components from `df_flutter_shared`
 - [Contributing](contributing.md) — dev setup and local path deps

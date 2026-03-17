@@ -22,7 +22,7 @@ flutter test
 
 ## Local path dependencies
 
-`df_ui_widgets` and `df_ai_consent` are shared packages hosted in a sibling repo. The `pubspec.yaml` references them via git by default. For local development, swap to path overrides:
+`df_ui_widgets`, `df_ai_consent`, and `df_firebase_rest` are shared packages hosted in a sibling repo. The `pubspec.yaml` references them via git or path. For local development, swap to path overrides:
 
 ```yaml
 # pubspec.yaml — local dev overrides
@@ -31,6 +31,8 @@ dependency_overrides:
     path: ../df_flutter_shared/df_ui_widgets
   df_ai_consent:
     path: ../df_flutter_shared/df_ai_consent
+  df_firebase_rest:
+    path: ../df_flutter_shared/df_firebase_rest
 ```
 
 Clone the sibling repo first:

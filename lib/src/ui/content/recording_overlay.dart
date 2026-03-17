@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../controllers/app_controller.dart';
-import '../widgets/audio_level_bar.dart';
-import '../widgets/recording_timer.dart';
+import 'package:df_ui_widgets/df_ui_widgets.dart';
 
 class RecordingOverlay extends StatefulWidget {
   const RecordingOverlay({super.key, required this.controller});

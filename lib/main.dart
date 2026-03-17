@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'firebase_options.dart';
-import 'src/audio/audio_capture_service.dart';
+import 'package:df_audio_capture/df_audio_capture.dart';
 import 'src/controllers/app_controller.dart';
 import 'src/paths.dart';
 import 'src/platform/window_setup.dart';
@@ -16,7 +16,7 @@ import 'src/services/ai_consent_service.dart';
 import 'src/services/app_mode_service.dart';
 import 'src/services/auth_service.dart';
 import 'src/services/backend_api_service.dart';
-import 'src/services/device_id_service.dart';
+import 'package:df_device_id/df_device_id.dart';
 import 'src/services/firebase_auth_service.dart';
 import 'src/services/rest_auth_service.dart';
 import 'src/services/usage_service.dart';

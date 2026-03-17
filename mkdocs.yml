@@ -53,6 +53,7 @@ nav:
     - Getting Started: getting-started.md
     - Usage: usage.md
     - Configuration: configuration.md
+    - Shared Libraries: shared-libraries.md
     - Contributing: contributing.md
   - Legal:
     - Privacy Policy: privacy.md
